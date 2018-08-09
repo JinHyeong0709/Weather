@@ -18,8 +18,6 @@ class SummaryTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        //init
-        //ViewDidLoad와 동일하다고 생각하면 된다.
         backgroundColor = UIColor.clear
         contentView.backgroundColor = UIColor.clear
         

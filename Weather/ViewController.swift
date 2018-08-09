@@ -41,8 +41,6 @@ class ViewController: UIViewController {
     lazy var locationManager: CLLocationManager = {
         let m = CLLocationManager()
         m.desiredAccuracy = kCLLocationAccuracyThreeKilometers
-        //정확도를 지정해 주어야 한다.(베터리 소모 영향)
-        //GPS를 기준으로 3키로 이동했을 때 마다 업데이트 된다.
         m.delegate = self
         return m
     }()
@@ -55,33 +53,12 @@ class ViewController: UIViewController {
             self.listTableView.alpha = 0.0
         }
         if let url = URL(string: "https://api2.sktelecom.com/weather/current/minutely?version=1&lat=\(coordinate.latitude)&lon=\(coordinate.longitude)&appKey=5acc7e09-172f-42da-8bff-1abf6f8d5ad2") {
-            /*SwiftJSON
-             //            Alamo.fire.request(url).responseJSON { (response) in
-             //                if response.result.isSuccess {
-             //                    if let dict = response.result.value as? [String: Any] {
-             //                        //여기까지 전체 딕셔녀리 바인딩
-             //                        let json = JSON(dict)
-             //                        if let weather = Weather(dict: json) {
-             //                            dump(weather)
-             //
-             //                        }
-             //                    }
-             //                } else {
-             //                    //error handling
-             //                }
-             //            }
-             //        }
-             
-             */
-            
-            
-            /*Alamofire-SwiftyJSON*/
+           
             Alamofire.request(url).responseSwiftyJSON { (response) in
                 if response.result.isSuccess {
                     if let json = response.result.value {
                         if let weather = Weather(dict: json) {
                             self.weather = weather
-                            //class속성에 속정 저장
                             self.listTableView.reloadData()
                             UIView.animate(withDuration: 0.3) {
                                 self.listTableView.alpha = 1.0
@@ -147,11 +124,6 @@ class ViewController: UIViewController {
             }
         }
     }
-    
-    
-    
-    
-    
     
     
     var topInset: CGFloat = 0.0
@@ -297,7 +269,6 @@ extension ViewController: CLLocationManagerDelegate {
             
             fetchCurrent(with: first.coordinate)
             fetchForcast(with: first.coordinate)
-            //중복 호출 제거 코드를 구현해줘야 한다.
         }
         
         manager.stopUpdatingLocation()
