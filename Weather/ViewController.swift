@@ -9,7 +9,6 @@
 import UIKit
 import CoreLocation
 import Alamofire
-import SwiftyJSON
 import Alamofire_SwiftyJSON
 
 extension UIViewController {
@@ -28,6 +27,10 @@ extension UIViewController {
 class ViewController: UIViewController {
     
     var weather: Weather?
+    var forecast = [Forecast]()
+    
+    lazy var formatter = DateFormatter()
+    
     @IBOutlet weak var listTableView: UITableView!
     @IBOutlet weak var addressLabel: UILabel!
     
@@ -50,6 +53,7 @@ class ViewController: UIViewController {
     
     
     //좌표(coordinate) - latitude, longtitude
+    //fetchSummary
     func fetchCurrent(with coordinate: CLLocationCoordinate2D) {
         UIView.animate(withDuration: 0.3) {
             self.listTableView.alpha = 0.0
@@ -82,7 +86,11 @@ class ViewController: UIViewController {
                         if let weather = Weather(dict: json) {
                             self.weather = weather
                             //class속성에 속정 저장
-                            self.listTableView.reloadData()
+                            
+                            DispatchQueue.main.async {
+                              self.listTableView.reloadData()
+                            }
+                            
                             UIView.animate(withDuration: 0.3) {
                                 self.listTableView.alpha = 1.0
                             }
@@ -99,7 +107,6 @@ class ViewController: UIViewController {
         if let url = URL(string: "https://api2.sktelecom.com/weather/forecast/3days?version=1&lat=\(coordinate.latitude)&lon=\(coordinate.longitude)&appKey=5acc7e09-172f-42da-8bff-1abf6f8d5ad2") {
             Alamofire.request(url).responseSwiftyJSON { (response) in
                 if let json = response.result.value {
-                    var list = [Forecast]()
                     
                     var now = Date()
                     var index = 4
@@ -140,20 +147,19 @@ class ViewController: UIViewController {
                         
                         let newDate = Forecast(date: dt, skyName: skyName, skyCode: skyCode, temperature: temp)
                         
-                        list.append(newDate)
+                        self.forecast.append(newDate)
+                        print(newDate)
                     }
-                    print(list)
+                    DispatchQueue.main.async {
+                        self.listTableView.reloadData()
+                    }
                 }
             }
         }
     }
     
     
-    
-    
-    
-    
-    
+
     var topInset: CGFloat = 0.0
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -179,7 +185,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         listTableView.alpha = 0.0
         
-        listTableView.rowHeight = UITableViewAutomaticDimension
+        listTableView.rowHeight = UITableView.automaticDimension
         listTableView.estimatedRowHeight = 200
         
         listTableView.backgroundColor = UIColor.clear
@@ -207,8 +213,8 @@ class ViewController: UIViewController {
                 let alert = UIAlertController(title: "권한확인", message: "GPS 권한", preferredStyle: .alert)
                 
                 let setting = UIAlertAction(title: "설정으로", style: .default) { (action) in
-                    if let url = URL(string: UIApplicationOpenSettingsURLString) {
-                        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                    if let url = URL(string: UIApplication.openSettingsURLString) {
+                        UIApplication.shared.open(url, options: convertToUIApplicationOpenExternalURLOptionsKeyDictionary([:]), completionHandler: nil)
                     }
                 }
                 alert.addAction(setting)
@@ -225,12 +231,18 @@ class ViewController: UIViewController {
 }
 
 extension ViewController: UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
-        case 1:
-            return 0
-        default:
+        case 0:
             return 1
+        case 1:
+            return forecast.count
+        default:
+            return 0
         }
     }
     
@@ -243,24 +255,43 @@ extension ViewController: UITableViewDataSource {
                 cell.weatherImageView.image = UIImage(named: target.skyCode)
                 cell.skyNameLabel.text = target.skyName
                 cell.minMaxLabel.text = "최대 \(target.tempMax)℃, 최소 \(target.tempMin)℃"
-                cell.currentTempLabel.text = "\(target.tempCurrnt)"
+                cell.currentTempLabel.text = "\(target.tempCurrnt)℃"
+                
+                cell.indicator.isHidden = true
+            } else {
+                cell.indicator.isHidden = false
             }
             
+            cell.weatherImageView.isHidden = !cell.indicator.isHidden
+            
+            
             return cell
+        
         case 1:
-            fatalError()
+            let cell = tableView.dequeueReusableCell(withIdentifier: "forecastCell") as! ForecastTableViewCell
+            
+            let target = forecast[indexPath.row]
+            formatter.dateFormat = "M.d (E)"
+            cell.dateLabel.text = formatter.string(for: target.date)
+            
+            formatter.dateFormat = "HH:mm"
+            cell.timeLabel.text = formatter.string(for: target.date)
+            
+            cell.weatherImageView.image = UIImage(named: target.skyCode)
+            cell.statusLabel.text = target.skyName
+            cell.temperatureLabel.text = "\(target.temperature)℃"
+            
+            
+            return cell
+            
         default:
             fatalError()
             
         }
     }
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
-    }
-    
-    
 }
+
+
 extension ViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 200
@@ -280,7 +311,7 @@ extension ViewController: CLLocationManagerDelegate {
             let geocoder = CLGeocoder()
             geocoder.reverseGeocodeLocation(first) { (placemarks, error) in
                 //error가 nil이면 성공, 아니면 실패
-                if let error = error {
+                if error != nil {
                     //error handling
                 } else {
                     if let last = placemarks?.last {
@@ -293,7 +324,6 @@ extension ViewController: CLLocationManagerDelegate {
                     }
                 }
             }
-            
             
             fetchCurrent(with: first.coordinate)
             fetchForcast(with: first.coordinate)
@@ -320,8 +350,7 @@ extension ViewController: CLLocationManagerDelegate {
     }
 }
 
-
-
-
-
-
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToUIApplicationOpenExternalURLOptionsKeyDictionary(_ input: [String: Any]) -> [UIApplication.OpenExternalURLOptionsKey: Any] {
+	return Dictionary(uniqueKeysWithValues: input.map { key, value in (UIApplication.OpenExternalURLOptionsKey(rawValue: key), value)})
+}

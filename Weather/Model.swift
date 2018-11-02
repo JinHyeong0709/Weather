@@ -40,7 +40,7 @@ struct Weather {
          //바인딩 할 대상을 제대로 정하는 것이 중요하다. -> SwiftyJSON을 쓰자.
          */
         
-        guard let skyCode = dict["weather"]["minutely"][0 ]["sky"]["code"].string else {
+        guard let skyCode = dict["weather"]["minutely"][0]["sky"]["code"].string else {
             return nil
         }
         self.skyCode = skyCode

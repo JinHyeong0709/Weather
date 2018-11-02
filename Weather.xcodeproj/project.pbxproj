@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		360FD0D0C1710C4CBD4305CA /* Pods_Weather.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A8D95EE13F3B3429751566B /* Pods_Weather.framework */; };
+		D61364BC218C129F009E2508 /* ForecastTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61364BB218C129F009E2508 /* ForecastTableViewCell.swift */; };
 		DB2FEC6F20A9BCFE00CD1745 /* SummaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB2FEC6E20A9BCFE00CD1745 /* SummaryTableViewCell.swift */; };
 		DB53F1B120A32A0400DFDD14 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB53F1B020A32A0400DFDD14 /* Model.swift */; };
 		DB5BE67120942E810097ABF0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5BE67020942E810097ABF0 /* AppDelegate.swift */; };
@@ -21,6 +22,7 @@
 		182300502E3F1FD2548102C0 /* Pods-Weather.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Weather.release.xcconfig"; path = "Pods/Target Support Files/Pods-Weather/Pods-Weather.release.xcconfig"; sourceTree = "<group>"; };
 		2E225774E4AC59B7D4EF77A3 /* Pods-Weather.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Weather.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Weather/Pods-Weather.debug.xcconfig"; sourceTree = "<group>"; };
 		4A8D95EE13F3B3429751566B /* Pods_Weather.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Weather.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D61364BB218C129F009E2508 /* ForecastTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastTableViewCell.swift; sourceTree = "<group>"; };
 		DB2FEC6E20A9BCFE00CD1745 /* SummaryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryTableViewCell.swift; sourceTree = "<group>"; };
 		DB53F1B020A32A0400DFDD14 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		DB5BE66D20942E810097ABF0 /* Weather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Weather.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -61,6 +63,15 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		D61364BA218C1001009E2508 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				DB2FEC6E20A9BCFE00CD1745 /* SummaryTableViewCell.swift */,
+				D61364BB218C129F009E2508 /* ForecastTableViewCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
 		DB5BE66420942E810097ABF0 = {
 			isa = PBXGroup;
 			children = (
@@ -82,6 +93,7 @@
 		DB5BE66F20942E810097ABF0 /* Weather */ = {
 			isa = PBXGroup;
 			children = (
+				D61364BA218C1001009E2508 /* Cell */,
 				DB5BE67020942E810097ABF0 /* AppDelegate.swift */,
 				DB5BE67220942E810097ABF0 /* ViewController.swift */,
 				DB5BE67420942E810097ABF0 /* Main.storyboard */,
@@ -89,7 +101,6 @@
 				DB5BE67920942E830097ABF0 /* LaunchScreen.storyboard */,
 				DB5BE67C20942E830097ABF0 /* Info.plist */,
 				DB53F1B020A32A0400DFDD14 /* Model.swift */,
-				DB2FEC6E20A9BCFE00CD1745 /* SummaryTableViewCell.swift */,
 			);
 			path = Weather;
 			sourceTree = "<group>";
@@ -128,6 +139,7 @@
 				TargetAttributes = {
 					DB5BE66C20942E810097ABF0 = {
 						CreatedOnToolsVersion = 9.3;
+						LastSwiftMigration = 1000;
 					};
 				};
 			};
@@ -211,6 +223,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DB53F1B120A32A0400DFDD14 /* Model.swift in Sources */,
+				D61364BC218C129F009E2508 /* ForecastTableViewCell.swift in Sources */,
 				DB5BE67320942E810097ABF0 /* ViewController.swift in Sources */,
 				DB2FEC6F20A9BCFE00CD1745 /* SummaryTableViewCell.swift in Sources */,
 				DB5BE67120942E810097ABF0 /* AppDelegate.swift in Sources */,
@@ -367,7 +380,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.JinHyeong.Weather;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -386,7 +399,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.JinHyeong.Weather;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
