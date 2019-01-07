@@ -88,10 +88,6 @@
                                                         <constraint firstAttribute="height" constant="50" id="gBK-y2-XOr"/>
                                                     </constraints>
                                                 </imageView>
-                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="JMe-RL-6Ay">
-                                                    <rect key="frame" x="177" y="114" width="20" height="20"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                </activityIndicatorView>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="DAa-qL-xWK" firstAttribute="top" secondItem="rWC-hk-KoU" secondAttribute="bottom" constant="8" id="2uK-ON-mWL"/>
@@ -111,7 +107,6 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="currentTempLabel" destination="JbT-hf-ZNH" id="ZwO-2y-dhX"/>
-                                            <outlet property="indicator" destination="JMe-RL-6Ay" id="dG8-dt-l3y"/>
                                             <outlet property="minMaxLabel" destination="DAa-qL-xWK" id="jE3-cp-FPg"/>
                                             <outlet property="skyNameLabel" destination="u7A-DY-XSi" id="lti-wn-5V6"/>
                                             <outlet property="weatherImageView" destination="rWC-hk-KoU" id="eEq-3I-L9u"/>

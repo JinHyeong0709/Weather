@@ -25,6 +25,7 @@ struct Weather {
          guard let weatherDict = dict["weather"] as? [String: Any] else {
          return nil
          } //weather key로 dictionary 꺼내기(minutely key가 들어있다)
+         
          guard let minutelyList = weatherDict["minutely"] as? [[String: Any]] else {
          return nil
          } //minutely key로 해당 배열을 꺼내는 과정
@@ -32,7 +33,7 @@ struct Weather {
          guard  let skyDict = minutelyList.first as? [String:Any] else {
          return nil
          } //minutely는 배열
-         
+        
          guard  let skyCode = skyDict["sky"] as? String else {
          return nil
          }

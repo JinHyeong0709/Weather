@@ -22,7 +22,7 @@ extension UIViewController {
         
         present(alert, animated: true, completion: nil)
     }
-}
+} //Alert Controller
 
 class ViewController: UIViewController {
     
@@ -33,7 +33,6 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var listTableView: UITableView!
     @IBOutlet weak var addressLabel: UILabel!
-    
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return currentStatusBarStyle
@@ -48,13 +47,13 @@ class ViewController: UIViewController {
         //GPS를 기준으로 3키로 이동했을 때 마다 업데이트 된다.
         m.delegate = self
         return m
-    }()
+    }() //CLLocationManger
     
     
     
     //좌표(coordinate) - latitude, longtitude
     //fetchSummary
-    func fetchCurrent(with coordinate: CLLocationCoordinate2D) {
+    func fetchCurrent(with coordinate: CLLocationCoordinate2D) { //Main Weather Fetch
         UIView.animate(withDuration: 0.3) {
             self.listTableView.alpha = 0.0
         }
@@ -77,7 +76,6 @@ class ViewController: UIViewController {
              //        }
              
              */
-            
             
             /*Alamofire-SwiftyJSON*/
             Alamofire.request(url).responseSwiftyJSON { (response) in
@@ -103,7 +101,7 @@ class ViewController: UIViewController {
         }
     }
     
-    func fetchForcast(with coordinate: CLLocationCoordinate2D) {
+    func fetchForcast(with coordinate: CLLocationCoordinate2D) { //3시간 간격의 데이터를 보여주는 부분
         if let url = URL(string: "https://api2.sktelecom.com/weather/forecast/3days?version=1&lat=\(coordinate.latitude)&lon=\(coordinate.longitude)&appKey=5acc7e09-172f-42da-8bff-1abf6f8d5ad2") {
             Alamofire.request(url).responseSwiftyJSON { (response) in
                 if let json = response.result.value {
@@ -257,12 +255,12 @@ extension ViewController: UITableViewDataSource {
                 cell.minMaxLabel.text = "최대 \(target.tempMax)℃, 최소 \(target.tempMin)℃"
                 cell.currentTempLabel.text = "\(target.tempCurrnt)℃"
                 
-                cell.indicator.isHidden = true
-            } else {
-                cell.indicator.isHidden = false
+//                cell.indicator.isHidden = true
+//            } else {
+//                cell.indicator.isHidden = false
             }
             
-            cell.weatherImageView.isHidden = !cell.indicator.isHidden
+//            cell.weatherImageView.isHidden = !cell.indicator.isHidden
             
             
             return cell
